@@ -117,3 +117,17 @@ class NewsletterResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class HeroBannerResponse(BaseModel):
+    id: int
+    title: str
+    subtitle: str | None = None
+    image_url: str | None = None
+    cta_text: str | None = None
+    cta_link: str | None = None
+    is_active: bool = True
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

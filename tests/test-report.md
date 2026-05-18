@@ -50,13 +50,33 @@
 
 ---
 
+---
+
+# Test Report — Hero Banner
+
+| Test ID | Module | Test Case | Category | Preconditions | Steps | Expected Result | Actual Result | Status | Priority | Notes |
+|---------|--------|-----------|----------|---------------|-------|-----------------|---------------|--------|----------|-------|
+| TC-39 | Hero Banner | Hero banner section is visible on page load | UI/UX | App running at localhost:5173 | 1. Navigate to / 2. Check .hero-banner element visibility | Hero banner section is visible on the page | — | Ready to Execute | High | Core banner visibility |
+| TC-40 | Hero Banner | Banner displays title text | UI/UX | App running | 1. Navigate to / 2. Check .hero-banner-title element | Title element visible with non-empty text content | — | Ready to Execute | High | Title content verification |
+| TC-41 | Hero Banner | Banner displays subtitle text | UI/UX | App running | 1. Navigate to / 2. Check .hero-banner-subtitle element | Subtitle element visible with non-empty text content | — | Ready to Execute | High | Subtitle content verification |
+| TC-42 | Hero Banner | Banner has a visible CTA button | UI/UX | App running | 1. Navigate to / 2. Check .hero-banner-cta .btn-primary element | CTA button is visible on the page | — | Ready to Execute | High | CTA visibility |
+| TC-43 | Hero Banner | CTA button has correct text from API | Happy Path | App running, API returning banners | 1. Navigate to / 2. Fetch GET /api/v1/hero-banner 3. Compare CTA text | CTA button text matches cta_text from first active banner in API response | — | Ready to Execute | High | API data integration |
+| TC-44 | Hero Banner | Banner image is visible | UI/UX | App running | 1. Navigate to / 2. Check .hero-img element visibility | Hero image element is visible | — | Ready to Execute | Medium | Image display |
+| TC-45 | Hero Banner | Banner image has proper src attribute | UI/UX | App running | 1. Navigate to / 2. Get src attribute of .hero-img | Image src attribute is non-empty and valid | — | Ready to Execute | Medium | Image source validation |
+| TC-46 | Hero Banner | CTA button is clickable / navigates | Navigation | App running | 1. Navigate to / 2. Verify CTA is enabled 3. Click CTA or check href | CTA button is enabled and either has valid href or is clickable without error | — | Ready to Execute | High | CTA interaction |
+| TC-47 | Hero Banner | Banner loads API data (not static fallback) | Happy Path | App running, API accessible | 1. Navigate to / 2. GET /api/v1/hero-banner 3. Compare page title with API title | Banner title on page matches title from API response (not static fallback) | — | Ready to Execute | High | Dynamic data loading |
+| TC-48 | Hero Banner | Banner is responsive (mobile viewport) | Responsive | App running | 1. Set viewport 375x667 2. Navigate to / 3. Check banner, title, CTA visibility 4. Check width | Banner visible, fits within 375px viewport, title and CTA still accessible | — | Ready to Execute | Medium | Mobile responsiveness |
+
+---
+
 ## Summary
 
-- **Total Test Cases:** 38
+- **Total Test Cases:** 48
 - **Login Module:** 15 (TC-01 to TC-15)
 - **Home Page:** 23 (TC-16 to TC-38)
-- **Categories:** Happy Path (7), Validation (6), Error Handling (3), UI/UX (16), Navigation (4), Responsive (2)
-- **Priority:** High (18), Medium (18), Low (2)
+- **Hero Banner:** 10 (TC-39 to TC-48)
+- **Categories:** Happy Path (9), Validation (6), Error Handling (3), UI/UX (21), Navigation (5), Responsive (4)
+- **Priority:** High (24), Medium (21), Low (3)
 - **Status:** All Ready to Execute
 
 ## Execution Prerequisites

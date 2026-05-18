@@ -1,7 +1,7 @@
 import bcrypt
 from sqlalchemy.orm import Session
 
-from .models import User, Category, Product, CartItem, Review, NewsletterSubscriber
+from .models import User, Category, Product, CartItem, Review, NewsletterSubscriber, HeroBanner
 from .schemas import UserCreate
 
 
@@ -159,3 +159,10 @@ def subscribe_newsletter(db: Session, email: str):
     db.commit()
     db.refresh(subscriber)
     return subscriber
+
+
+# --- Hero Banner CRUD ---
+
+
+def get_active_hero_banners(db: Session):
+    return db.query(HeroBanner).filter(HeroBanner.is_active == True).all()

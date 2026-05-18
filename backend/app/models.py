@@ -71,3 +71,16 @@ class NewsletterSubscriber(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, nullable=False)
     created_at = Column(DateTime, nullable=False, server_default=func.now())
+
+
+class HeroBanner(Base):
+    __tablename__ = "hero_banner"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    subtitle = Column(String)
+    image_url = Column(String)
+    cta_text = Column(String)
+    cta_link = Column(String)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, nullable=False, server_default=func.now())

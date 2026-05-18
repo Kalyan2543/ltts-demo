@@ -613,3 +613,149 @@ Subscribe an email to the newsletter.
 - Lighthouse accessibility score ≥ 90.
 - Cart state persists across page navigation (stored via context/state management).
 - API responses for product listings < 300ms under normal load.
+
+---
+
+# Hero Banner Module
+
+## 1. Feature Description
+
+The Hero Banner is a prominent, full-width visual section displayed at the top of the home page. It features a split layout with marketing text (title, subtitle) on the left side, a large hero image on the right side, and a call-to-action (CTA) button that directs users to a target page (e.g., Shop, Promotions). The banner content is managed dynamically via the database, allowing administrators to update titles, images, and CTA links without code changes.
+
+---
+
+## 2. Functional Requirements
+
+| ID | Requirement |
+|----|-------------|
+| FR-HB-01 | The system shall display a hero banner at the top of the home page with a title, subtitle, hero image, and CTA button. |
+| FR-HB-02 | The hero banner content (title, subtitle, image URL, CTA text, CTA link) shall be stored in the database and retrieved via an API endpoint. |
+| FR-HB-03 | Only the active hero banner (`is_active = true`) shall be displayed on the home page. If multiple banners are active, the most recently created one shall be shown. |
+| FR-HB-04 | The CTA button shall navigate the user to the URL specified in the `cta_link` field when clicked. |
+| FR-HB-05 | The system shall provide an API endpoint to retrieve the currently active hero banner content. |
+| FR-HB-06 | If no active hero banner exists, the home page shall display a default/fallback banner with static content. |
+| FR-HB-07 | The hero banner shall render responsively — stacking vertically (text above image) on mobile viewports. |
+
+---
+
+## 3. User Stories
+
+### US-16 — View Hero Banner
+
+> **As a** visitor,
+> **I want to** see an eye-catching hero banner with a headline, description, and image when I land on the home page,
+> **So that** I immediately understand the platform's value proposition or current promotion.
+
+### US-17 — Click CTA Button
+
+> **As a** visitor,
+> **I want to** click the CTA button on the hero banner,
+> **So that** I am directed to the relevant page (shop, promotion, or featured collection).
+
+### US-18 — Dynamic Banner Content
+
+> **As an** administrator,
+> **I want** the hero banner content to be manageable from the database,
+> **So that** I can update promotions and messaging without deploying new code.
+
+---
+
+## 4. Acceptance Criteria
+
+| # | Criterion |
+|---|-----------|
+| AC-36 | Hero banner displays a title (h1), subtitle (paragraph), hero image, and CTA button. |
+| AC-37 | Layout is split: text content on the left (50%), image on the right (50%) on desktop viewports (≥ 1024px). |
+| AC-38 | On mobile viewports (< 768px), layout stacks vertically with text above the image. |
+| AC-39 | CTA button is visually prominent (accent color) and navigates to the configured link on click. |
+| AC-40 | Banner content is fetched from the API on page load. |
+| AC-41 | A loading skeleton is displayed while the banner data is being fetched. |
+| AC-42 | If the API returns no active banner, a default fallback banner is displayed with generic content. |
+| AC-43 | Hero image maintains aspect ratio and does not distort on any viewport size. |
+| AC-44 | The hero banner section has a minimum height of 400px on desktop and 300px on mobile. |
+| AC-45 | CTA button has hover and focus states with smooth transitions. |
+
+---
+
+## 5. UI/UX Specifications
+
+### Layout
+
+- **Container:** Full-width section with max content width of 1200px centered.
+- **Split layout (desktop):** Two equal columns — left column for text content, right column for hero image.
+- **Stacked layout (mobile):** Single column — text on top, image below.
+- **Minimum height:** 400px (desktop), 300px (mobile).
+- **Padding:** 60px vertical, 24px horizontal.
+
+### Text Content (Left Side)
+
+- **Title:** h1, font-size 48px (desktop) / 32px (mobile), font-weight 700, color `#2E2E38`.
+- **Subtitle:** Paragraph, font-size 18px (desktop) / 16px (mobile), color `#747480`, max-width 500px, line-height 1.6.
+- **CTA Button:** Padding 14px 32px, background `#FFE600`, color `#2E2E38`, font-weight 600, border-radius 8px, font-size 16px. Hover: slight darkening of background + subtle shadow.
+
+### Image (Right Side)
+
+- **Dimensions:** Fill the right column, max-height 500px, object-fit cover/contain.
+- **Border-radius:** 12px.
+- **Shadow:** Subtle drop shadow (`0 8px 32px rgba(0,0,0,0.10)`).
+
+### Responsive Breakpoints
+
+| Viewport | Layout | Title Size | Min Height |
+|----------|--------|------------|------------|
+| ≥ 1024px | Split (50/50) | 48px | 400px |
+| 768px–1023px | Split (45/55) | 40px | 360px |
+| < 768px | Stacked (vertical) | 32px | 300px |
+
+### Animation
+
+- Text fades in from the left (translateX(-20px) → 0) on initial load.
+- Image fades in from the right (translateX(20px) → 0) on initial load.
+- CTA button has a scale(1.02) effect on hover.
+
+---
+
+## 6. API Endpoint Specifications
+
+### GET `/api/v1/hero-banner`
+
+Retrieve the currently active hero banner.
+
+**Response (200 OK):**
+
+```json
+{
+  "id": 1,
+  "title": "Discover Our New Collection",
+  "subtitle": "Shop the latest trends in electronics, fashion, and more. Exclusive deals await you.",
+  "image_url": "/images/hero/banner-spring-2026.jpg",
+  "cta_text": "Shop Now",
+  "cta_link": "/shop",
+  "is_active": true,
+  "created_at": "2026-05-01T00:00:00Z"
+}
+```
+
+**Response (404 Not Found — no active banner):**
+
+```json
+{ "detail": "No active hero banner found." }
+```
+
+---
+
+## 7. Error Handling Scenarios
+
+| Scenario | HTTP Status | User-Facing Message |
+|----------|-------------|---------------------|
+| No active banner in database | 404 | "No active hero banner found." (Frontend shows fallback) |
+| Server error fetching banner | 500 | "Something went wrong. Please try again later." |
+
+---
+
+## 8. Non-Functional Requirements
+
+- Hero banner API response time < 200ms under normal load.
+- Hero image should be lazy-loaded if below the fold on any viewport.
+- The hero section must be keyboard-accessible (CTA button focusable and activatable via Enter/Space).
+- Lighthouse performance score for the hero section ≥ 90.

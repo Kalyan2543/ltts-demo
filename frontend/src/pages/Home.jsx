@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getProducts, getCategories, getCart, addToCart, subscribeNewsletter } from '../services/api';
+import { getProducts, getCategories, getCart, addToCart, subscribeNewsletter, getHeroBanners } from '../services/api';
 import './Home.css';
 
 function Home() {
@@ -17,6 +17,8 @@ function Home() {
   const [loadingFeatured, setLoadingFeatured] = useState(true);
   const [loadingTrending, setLoadingTrending] = useState(true);
   const [loadingCategories, setLoadingCategories] = useState(true);
+  const [heroBanner, setHeroBanner] = useState(null);
+  const [loadingHero, setLoadingHero] = useState(true);
   const [toast, setToast] = useState(null);
   const trendingRef = useRef(null);
   const observerRef = useRef(null);
@@ -59,6 +61,17 @@ function Home() {
 
     return () => observerRef.current?.disconnect();
   }, [featuredProducts, trendingProducts, categories]);
+
+  // Fetch hero banner
+  useEffect(() => {
+    getHeroBanners()
+      .then((banners) => {
+        const active = banners.find((b) => b.is_active);
+        if (active) setHeroBanner(active);
+      })
+      .catch(() => {})
+      .finally(() => setLoadingHero(false));
+  }, []);
 
   // Fetch data
   useEffect(() => {
@@ -232,22 +245,55 @@ function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="hero" id="hero">
-        <div className="hero-overlay"></div>
-        <div className="hero-decoration">
-          <div className="hero-circle circle-1"></div>
-          <div className="hero-circle circle-2"></div>
-          <div className="hero-circle circle-3"></div>
-        </div>
-        <div className="hero-content">
-          <h1 className="hero-title">
-            Discover the<br /><span className="hero-highlight">Latest Trends</span>
-          </h1>
-          <p className="hero-subtitle">Premium quality products at unbeatable prices</p>
-          <div className="hero-cta">
-            <a href="#featured" className="btn btn-primary">Shop Now</a>
-            <a href="#categories" className="btn btn-outline">Explore Categories</a>
+      {/* Hero Banner Section */}
+      <section className="hero-banner" id="hero">
+        <div className="hero-banner-overlay"></div>
+        <div className="hero-banner-container">
+          <div className="hero-banner-text">
+            <span className="hero-banner-badge">New Collection 2026</span>
+            {loadingHero ? (
+              <h1 className="hero-banner-title">Loading...</h1>
+            ) : (
+              <>
+                <h1 className="hero-banner-title">
+                  {heroBanner ? heroBanner.title : 'Elevate Your Style'}<br />
+                  <span className="hero-banner-highlight">{heroBanner ? heroBanner.subtitle : 'Shop the Latest'}</span>
+                </h1>
+                <p className="hero-banner-subtitle">
+                  {heroBanner?.subtitle || 'Discover premium quality products curated for the modern lifestyle. Unbeatable prices, free shipping on orders over $50.'}
+                </p>
+                <div className="hero-banner-cta">
+                  <a href={heroBanner?.cta_link || '#featured'} className="btn btn-primary btn-lg">
+                    {heroBanner?.cta_text || 'Shop Now'} <span className="cta-arrow">→</span>
+                  </a>
+                  <a href="#categories" className="btn btn-outline btn-lg">Explore Categories</a>
+                </div>
+              </>
+            )}
+            <div className="hero-banner-stats">
+              <div className="hero-stat">
+                <span className="hero-stat-number">500+</span>
+                <span className="hero-stat-label">Products</span>
+              </div>
+              <div className="hero-stat">
+                <span className="hero-stat-number">50k+</span>
+                <span className="hero-stat-label">Happy Customers</span>
+              </div>
+              <div className="hero-stat">
+                <span className="hero-stat-number">4.9★</span>
+                <span className="hero-stat-label">Rating</span>
+              </div>
+            </div>
+          </div>
+          <div className="hero-banner-image">
+            <div className="hero-image-wrapper">
+              <img 
+                src={heroBanner?.image_url || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=1000&fit=crop'} 
+                alt={heroBanner?.title || 'Hero banner showcasing premium fashion collection'} 
+                className="hero-img"
+              />
+              <div className="hero-image-accent"></div>
+            </div>
           </div>
         </div>
       </section>

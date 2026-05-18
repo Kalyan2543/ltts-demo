@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .database import Base, engine, SessionLocal
-from .routers import auth, products, categories, cart, reviews, newsletter
+from .routers import auth, products, categories, cart, reviews, newsletter, hero_banner
 from .seed_data import seed_database
 
 Base.metadata.create_all(bind=engine)
@@ -30,6 +30,7 @@ app.include_router(categories.router)
 app.include_router(cart.router)
 app.include_router(reviews.router)
 app.include_router(newsletter.router)
+app.include_router(hero_banner.router)
 
 
 @app.get("/api/v1/health")

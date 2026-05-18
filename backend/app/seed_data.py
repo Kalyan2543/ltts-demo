@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from .models import Category, Product, Review
+from .models import Category, Product, Review, HeroBanner
 
 
 def seed_database(db: Session):
@@ -49,3 +49,33 @@ def seed_database(db: Session):
     if db.query(User).filter(User.id == 1).first():
         db.add_all(reviews)
         db.commit()
+
+    # --- Hero Banners ---
+    hero_banners = [
+        HeroBanner(
+            title="Summer Sale",
+            subtitle="Up to 50% off on selected items",
+            image_url="https://picsum.photos/1200/400?random=100",
+            cta_text="Shop Now",
+            cta_link="/products?featured=true",
+            is_active=True,
+        ),
+        HeroBanner(
+            title="New Arrivals",
+            subtitle="Check out the latest trends in fashion and tech",
+            image_url="https://picsum.photos/1200/400?random=101",
+            cta_text="Explore",
+            cta_link="/products?trending=true",
+            is_active=True,
+        ),
+        HeroBanner(
+            title="Free Shipping",
+            subtitle="On all orders over $50 — limited time offer",
+            image_url="https://picsum.photos/1200/400?random=102",
+            cta_text="Learn More",
+            cta_link="/products",
+            is_active=True,
+        ),
+    ]
+    db.add_all(hero_banners)
+    db.commit()

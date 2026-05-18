@@ -60,4 +60,9 @@ export const subscribeNewsletter = async (email) => {
   return response.data;
 };
 
+export const getHeroBanners = async () => {
+  const response = await api.get('/hero-banner');
+  return response.data;
+};
+
 export default api;
