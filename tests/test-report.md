@@ -79,6 +79,36 @@
 - **Priority:** High (24), Medium (21), Low (3)
 - **Status:** All Ready to Execute
 
+---
+
+# Test Report — Sitemap Page
+
+| Test ID | Module | Test Case | Category | Preconditions | Steps | Expected Result | Actual Result | Status | Priority | Notes |
+|---------|--------|-----------|----------|---------------|-------|-----------------|---------------|--------|----------|-------|
+| TC-49 | Sitemap | Sitemap page loads at /sitemap | Happy Path | App running at localhost:5173 | 1. Navigate to /sitemap 2. Check .sitemap-page element visibility | Page loads with URL containing /sitemap and .sitemap-page element is visible | — | Ready to Execute | High | Core page load verification |
+| TC-50 | Sitemap | Page header displays "Site Map" title | UI/UX | App running, sitemap page loaded | 1. Navigate to /sitemap 2. Check .sitemap-header h1 element | Header h1 visible containing text "Site" and "Map" | — | Ready to Execute | High | Title content verification |
+| TC-51 | Sitemap | Pages section is visible with at least 3 items | UI/UX | App running, API returning sitemap data | 1. Navigate to /sitemap 2. Check first .sitemap-section 3. Count .sitemap-card elements | Pages section visible with title "Pages" and exactly 3 page cards | — | Ready to Execute | High | Pages section content |
+| TC-52 | Sitemap | Home Sections group is visible with at least 5 items | UI/UX | App running, API returning sitemap data | 1. Navigate to /sitemap 2. Check second .sitemap-section 3. Count cards | Home Sections section visible with title "Home Sections" and >= 5 section cards | — | Ready to Execute | High | Home sections content |
+| TC-53 | Sitemap | API Endpoints section is visible | UI/UX | App running, API returning sitemap data | 1. Navigate to /sitemap 2. Check third .sitemap-section 3. Count .sitemap-api-card elements | API Endpoints section visible with title "API Endpoints" and > 0 endpoint cards | — | Ready to Execute | High | API endpoints section |
+| TC-54 | Sitemap | Method badges display (GET/POST) | UI/UX | App running, sitemap loaded | 1. Navigate to /sitemap 2. Check .method-badge elements 3. Verify .method-badge.get and .method-badge.post | GET badge shows "GET", POST badge shows "POST", both visible | — | Ready to Execute | Medium | Method badge styling |
+| TC-55 | Sitemap | Page links navigate correctly (Home link → /) | Navigation | App running, sitemap loaded | 1. Navigate to /sitemap 2. Click Home card in Pages section | Page navigates to / (home page) | — | Ready to Execute | High | Link navigation |
+| TC-56 | Sitemap | Navbar Sitemap link works from Home page | Navigation | App running | 1. Navigate to / 2. Find a[href="/sitemap"] link 3. Click link | Page navigates to /sitemap and .sitemap-page is visible | — | Ready to Execute | High | Cross-page navigation |
+| TC-57 | Sitemap | Responsive layout works on mobile viewport (375px) | Responsive | App running | 1. Set viewport 375x667 2. Navigate to /sitemap 3. Check header and sections 4. Check no horizontal overflow | Header and sections visible, page scrollWidth <= 375px | — | Ready to Execute | Medium | Mobile responsiveness |
+| TC-58 | Sitemap | API data loads (not static fallback) | Happy Path | App running, API accessible | 1. Navigate to /sitemap 2. GET /api/v1/sitemap 3. Compare section count with API data | Home Sections count matches API response sections length (7 from API vs 6 fallback) | — | Ready to Execute | High | Dynamic data loading |
+
+---
+
+## Summary
+
+- **Total Test Cases:** 58
+- **Login Module:** 15 (TC-01 to TC-15)
+- **Home Page:** 23 (TC-16 to TC-38)
+- **Hero Banner:** 10 (TC-39 to TC-48)
+- **Sitemap Page:** 10 (TC-49 to TC-58)
+- **Categories:** Happy Path (11), Validation (6), Error Handling (3), UI/UX (25), Navigation (7), Responsive (6)
+- **Priority:** High (31), Medium (23), Low (3)
+- **Status:** All Ready to Execute
+
 ## Execution Prerequisites
 
 1. Docker containers running (`docker-compose up`)

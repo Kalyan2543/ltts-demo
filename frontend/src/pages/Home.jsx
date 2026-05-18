@@ -207,6 +207,7 @@ function Home() {
             <a href="#categories">Categories</a>
             <a href="#trust">About</a>
             <a href="#footer">Contact</a>
+            <Link to="/sitemap">Sitemap</Link>
           </div>
 
           <div className="nav-actions">

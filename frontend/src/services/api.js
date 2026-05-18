@@ -65,4 +65,9 @@ export const getHeroBanners = async () => {
   return response.data;
 };
 
+export const getSitemap = async () => {
+  const response = await api.get('/sitemap');
+  return response.data;
+};
+
 export default api;

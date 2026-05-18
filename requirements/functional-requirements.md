@@ -759,3 +759,133 @@ Retrieve the currently active hero banner.
 - Hero image should be lazy-loaded if below the fold on any viewport.
 - The hero section must be keyboard-accessible (CTA button focusable and activatable via Enter/Space).
 - Lighthouse performance score for the hero section ≥ 90.
+
+---
+
+# Sitemap Page Module
+
+## 1. Feature Description
+
+The Sitemap Page is a dedicated route (`/sitemap`) that provides a visual, structured map of all navigable pages, sections, and links within the e-commerce application. It helps users understand the full site structure at a glance and provides direct navigation to any page or section. This is a frontend-only feature — no backend API or database changes are required.
+
+---
+
+## 2. User Stories
+
+### US-19 — View Site Structure
+
+> **As a** visitor,
+> **I want to** access a sitemap page that lists all pages and sections of the site,
+> **So that** I can quickly find and navigate to any part of the application.
+
+### US-20 — Navigate from Sitemap
+
+> **As a** visitor,
+> **I want to** click on any item in the sitemap to be taken directly to that page or section,
+> **So that** I can reach my destination in one click.
+
+### US-21 — Understand Site Organization
+
+> **As a** visitor,
+> **I want** the sitemap items to be grouped by category (Pages, Home Sections, Account),
+> **So that** I can understand how the site is organized.
+
+---
+
+## 3. Functional Requirements
+
+| ID | Requirement |
+|----|-------------|
+| FR-SM-01 | The sitemap page shall be accessible at route `/sitemap`. |
+| FR-SM-02 | The sitemap shall display all navigable pages of the application: Home (`/`), Login (`/login`), and Sitemap (`/sitemap`). |
+| FR-SM-03 | The sitemap shall display all sections within the Home page: Hero Banner, Categories, Featured Products, Trending Products, Testimonials, Newsletter, and Footer. |
+| FR-SM-04 | Each item in the sitemap shall be a clickable link that navigates the user to the corresponding page or scrolls to the corresponding section (using anchor links for Home sections). |
+| FR-SM-05 | Sitemap items shall be grouped into categories: **Pages** (top-level routes), **Home Sections** (sections within the Home page), and **Account** (login/register). |
+| FR-SM-06 | The sitemap layout shall be fully responsive, adapting gracefully to mobile, tablet, and desktop viewports. |
+
+---
+
+## 4. Acceptance Criteria
+
+| # | Criterion |
+|---|-----------|
+| AC-46 | Navigating to `/sitemap` renders the Sitemap page without errors. |
+| AC-47 | The page displays a clear heading (e.g., "Sitemap" or "Site Map"). |
+| AC-48 | All navigable pages (Home, Login, Sitemap) are listed under a "Pages" group. |
+| AC-49 | All Home page sections (Hero Banner, Categories, Featured Products, Trending Products, Testimonials, Newsletter, Footer) are listed under a "Home Sections" group. |
+| AC-50 | Login/Register is listed under an "Account" group. |
+| AC-51 | Clicking a page link navigates to the correct route. |
+| AC-52 | Clicking a Home section link navigates to the Home page and scrolls to the corresponding section (e.g., `/#categories`). |
+| AC-53 | The layout displays groups side-by-side on desktop (≥ 1024px) and stacked vertically on mobile (< 768px). |
+| AC-54 | All links are keyboard-accessible and have visible focus states. |
+| AC-55 | The page meets a Lighthouse accessibility score ≥ 90. |
+
+---
+
+## 5. UI/UX Specifications
+
+### Layout
+
+- **Container:** Max content width of 1200px, centered, with vertical padding of 60px.
+- **Heading:** h1 "Sitemap", font-size 36px (desktop) / 28px (mobile), font-weight 700, color `#2E2E38`.
+- **Groups:** Displayed as cards or columns, arranged in a responsive grid (3 columns on desktop, 2 on tablet, 1 on mobile).
+
+### Group Cards
+
+- **Group title:** h2, font-size 22px, font-weight 600, color `#2E2E38`, margin-bottom 16px.
+- **Items list:** Unordered list with no bullets, each item is a link styled with color `#2E2E38`, font-size 16px, padding 8px 0.
+- **Link hover:** Color changes to accent `#FFE600` (or underline appears), smooth transition (0.2s).
+- **Card style:** White background, border-radius 12px, padding 24px, subtle shadow (`0 2px 12px rgba(0,0,0,0.06)`).
+
+### Groups Content
+
+**Pages:**
+- Home → `/`
+- Sitemap → `/sitemap`
+
+**Home Sections:**
+- Hero Banner → `/#hero`
+- Categories → `/#categories`
+- Featured Products → `/#featured-products`
+- Trending Products → `/#trending-products`
+- Testimonials → `/#testimonials`
+- Newsletter → `/#newsletter`
+- Footer → `/#footer`
+
+**Account:**
+- Login → `/login`
+- Register → `/login` (switches to register tab)
+
+### Responsive Breakpoints
+
+| Viewport | Layout | Columns |
+|----------|--------|---------|
+| ≥ 1024px | Grid | 3 columns |
+| 768px–1023px | Grid | 2 columns |
+| < 768px | Stacked | 1 column |
+
+### Branding (consistent with site)
+
+- **Primary color:** Dark navy (`#2E2E38`)
+- **Accent color:** EY Yellow (`#FFE600`)
+- **Background:** Light gray (`#F6F6FA`)
+- **Font:** Sans-serif (system font stack)
+
+---
+
+## 6. Error Handling Scenarios
+
+| Scenario | Handling |
+|----------|----------|
+| Route `/sitemap` not matched | React Router shows 404 / redirect to Home |
+| Broken anchor link (section removed) | Graceful scroll failure — page stays at top |
+
+---
+
+## 7. Non-Functional Requirements
+
+- Sitemap page renders in < 100ms (no API calls required — static content).
+- All links must be valid and tested via end-to-end tests.
+- Page is fully accessible via keyboard navigation.
+- Lighthouse accessibility score ≥ 90.
+- No database or backend dependencies — purely frontend rendered.

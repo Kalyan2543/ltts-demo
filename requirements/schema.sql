@@ -106,3 +106,7 @@ CREATE TABLE hero_banner (
 
 -- Index for quickly fetching the active banner
 CREATE INDEX idx_hero_banner_is_active ON hero_banner (is_active, created_at DESC) WHERE is_active = TRUE;
+
+-- =============================================================
+-- Sitemap Page: No database changes required (frontend-only feature)
+-- =============================================================
