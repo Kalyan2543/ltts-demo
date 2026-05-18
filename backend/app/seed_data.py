@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from .models import Category, Product, Review, HeroBanner
+from .models import Category, Product, Review, HeroBanner, Coupon, Offer, FAQ
 
 
 def seed_database(db: Session):
@@ -78,4 +78,38 @@ def seed_database(db: Session):
         ),
     ]
     db.add_all(hero_banners)
+    db.commit()
+
+    # --- Coupons ---
+    coupons = [
+        Coupon(code="WELCOME10", discount_percent=10, max_discount=100, min_order_value=500, is_active=True),
+        Coupon(code="SAVE20", discount_percent=20, max_discount=200, min_order_value=1000, is_active=True),
+        Coupon(code="FLAT50", discount_percent=5, max_discount=50, min_order_value=200, is_active=True),
+    ]
+    db.add_all(coupons)
+    db.commit()
+
+    # --- Offers ---
+    offers = [
+        Offer(title="Electronics Sale", description="Up to 30% off on all electronics", discount_percent=30, image_url="https://picsum.photos/600/300?random=200", category_id=1, is_active=True),
+        Offer(title="Fashion Week", description="Buy 2 Get 1 Free on fashion items", discount_percent=33, image_url="https://picsum.photos/600/300?random=201", category_id=2, is_active=True),
+        Offer(title="Home Makeover", description="Flat 25% off on home & living", discount_percent=25, image_url="https://picsum.photos/600/300?random=202", category_id=3, is_active=True),
+        Offer(title="Fitness Friday", description="20% off on all sports equipment", discount_percent=20, image_url="https://picsum.photos/600/300?random=203", category_id=4, is_active=True),
+        Offer(title="Book Bonanza", description="Flat 15% off on bestsellers", discount_percent=15, image_url="https://picsum.photos/600/300?random=204", category_id=5, is_active=True),
+    ]
+    db.add_all(offers)
+    db.commit()
+
+    # --- FAQs ---
+    faqs = [
+        FAQ(question="How do I place an order?", answer="Browse products, add items to cart, proceed to checkout, enter shipping details, and complete payment.", category="orders", sort_order=1),
+        FAQ(question="What payment methods are accepted?", answer="We accept Credit/Debit Cards, UPI, and Net Banking.", category="payment", sort_order=2),
+        FAQ(question="How can I track my order?", answer="Go to Order History in your account to view real-time order status and tracking details.", category="orders", sort_order=3),
+        FAQ(question="What is the return policy?", answer="You can return most items within 30 days of delivery. Items must be unused and in original packaging.", category="returns", sort_order=4),
+        FAQ(question="How do I apply a coupon code?", answer="Enter your coupon code on the checkout page in the 'Apply Coupon' field and click Apply.", category="payment", sort_order=5),
+        FAQ(question="How do I change my password?", answer="Go to Profile > Change Password. Enter your current password and new password.", category="account", sort_order=6),
+        FAQ(question="Is my payment information secure?", answer="Yes, all transactions are encrypted with SSL and we never store your card details.", category="payment", sort_order=7),
+        FAQ(question="How do I contact customer support?", answer="Use the contact form on the Help page, or email support@ecommerce.com.", category="general", sort_order=8),
+    ]
+    db.add_all(faqs)
     db.commit()

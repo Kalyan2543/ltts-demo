@@ -35,3 +35,11 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
     if not product:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
     return product
+
+
+@router.get("/{product_id}/related", response_model=list[ProductResponse])
+def get_related_products(product_id: int, db: Session = Depends(get_db)):
+    product = crud.get_product_by_id(db, product_id)
+    if not product:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
+    return crud.get_related_products(db, product_id, product.category_id)

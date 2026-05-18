@@ -6,7 +6,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..schemas import CartItemCreate, CartItemResponse
+from ..schemas import CartItemCreate, CartItemResponse, CartItemUpdate
 from .. import crud
 
 SECRET_KEY = os.getenv("SECRET_KEY", "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7")
@@ -54,3 +54,16 @@ def remove_from_cart(
     if not item:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cart item not found")
     return {"detail": "Item removed from cart"}
+
+
+@router.put("/{item_id}", response_model=CartItemResponse)
+def update_cart_item(
+    item_id: int,
+    data: CartItemUpdate,
+    user_id: int = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    item = crud.update_cart_item(db, item_id, user_id, data.quantity)
+    if not item:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cart item not found")
+    return item
